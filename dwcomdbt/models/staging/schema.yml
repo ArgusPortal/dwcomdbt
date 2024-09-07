@@ -1,27 +1,23 @@
 version: 2
 
-sources:
-  - name: database_rq2i
-    schema: public
-    tables:
-      - name: commodities
-        description: "Tabela que contém dados históricos de commodities"
-        columns:
-          - name: Date
-            description: "Data da observação"
-          - name: Close
-            description: "Preço de fechamento da commodity"
-          - name: simbolo
-            description: "Símbolo da commodity"
-            
-      - name: movimentacao_commodities
-        description: "Tabela seed"
-        columns:
-                - name: date
-                  description: "Data da transação"
-                - name: symbol
-                  description: "Símbolo da commodity"
-                - name: action
-                  description: "Tipo de transação (buy/sell)"
-                - name: quantity
-                  description: "Quantidade transacionada"
+models:
+  - name: stg_commodities
+    description: "Tabela de staging para dados de commodities"
+    columns:
+      - name: data
+        description: "Data da observação no formato AAAA-MM-DD"
+      - name: valor_fechamento
+        description: "Preço de fechamento da commodity com precisão decimal 4.2"
+      - name: simbolo
+        description: "Símbolo da commodity"
+  - name: stg_movimentacao_commodities
+    description: "Tabela de staging para dados de movimentação de commodities"
+    columns:
+      - name: data
+        description: "Data da transação no formato AAAA-MM-DD"
+      - name: simbolo
+        description: "Símbolo da commodity"
+      - name: acao
+        description: "Tipo de transação (buy/sell)"
+      - name: quantidade
+        description: "Quantidade transacionada"

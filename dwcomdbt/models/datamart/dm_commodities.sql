@@ -6,7 +6,7 @@ with commodities as (
         simbolo,
         valor_fechamento
     from 
-        {{ ref ('stg_commodities') }}
+        {{ ref ('stg_commodities')  }}
 ),
 
 movimentacao as (

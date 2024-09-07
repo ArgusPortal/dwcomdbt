@@ -24,7 +24,7 @@ DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 engine = create_engine(DATABASE_URL)
 
 #funcoes
-def buscar_dados_do_commodities(simbolo, periodo='5d', intervalo='1d'):
+def buscar_dados_do_commodities(simbolo, periodo='5y', intervalo='1d'):
    # response = requests.get("url...")
     ticker = yf.Ticker(simbolo)
     dados = ticker.history(period=periodo, interval=intervalo)[['Close']]
