@@ -39,10 +39,10 @@ def get_data():
     return df
 
 # Configurar a página do Streamlit
-st.set_page_config(page_title='Dashboard do diretor', layout='wide')
+st.set_page_config(page_title='Dashboard de Commodities', layout='wide')
 
 # Título do Dashboard
-st.title('Esse e um texto')
+st.title('Commodities')
 
 # Descrição
 st.write("""
