@@ -368,6 +368,134 @@ select
 from
     joined
 ```
+O `dbt` oferece uma variedade de comandos que ajudam a orquestrar, depurar, gerar e servir modelos de dados transformados. Abaixo está uma explicação detalhada sobre os comandos mais importantes do `dbt`, incluindo `dbt debug`, `dbt run`, `dbt docs generate` e `dbt docs serve`.
+
+---
+
+### 1. **`dbt debug`**
+   O comando `dbt debug` é utilizado para verificar se a configuração do ambiente está correta e se o `dbt` está conseguindo se conectar ao banco de dados e a outros recursos configurados no projeto.
+
+   #### O que ele faz:
+   - Testa se o arquivo `profiles.yml` está configurado corretamente.
+   - Verifica se as variáveis de ambiente, como as credenciais de banco de dados, estão acessíveis.
+   - Tenta estabelecer uma conexão com o banco de dados para garantir que as informações fornecidas (host, porta, usuário, senha, etc.) sejam válidas.
+
+   #### Quando usar:
+   - Após configurar o projeto e definir o arquivo `profiles.yml`.
+   - Quando surgir algum problema de conexão com o banco de dados.
+
+   #### Exemplo de uso:
+   ```bash
+   dbt debug
+   ```
+
+   O comando retornará uma lista de verificações, onde você verá `PASSED` ou `FAILED` para cada etapa da conexão.
+
+---
+
+### 2. **`dbt run`**
+   O comando `dbt run` executa as transformações de dados definidas nos modelos SQL dentro do projeto. Este é o comando mais central do `dbt`, pois é o responsável por construir as tabelas e views transformadas no banco de dados.
+
+   #### O que ele faz:
+   - Executa todos os modelos SQL dentro da pasta `models/`.
+   - Respeita as dependências entre os modelos (execução em ordem correta).
+   - Atualiza ou recria as tabelas/views de acordo com o tipo de materialização definido (`table`, `view`, ou `incremental`).
+
+   #### Quando usar:
+   - Sempre que houver uma alteração nos modelos SQL e for necessário atualizar os dados transformados no banco de dados.
+   - Para automatizar as rotinas de ETL e carregar novos dados no datamart.
+
+   #### Exemplo de uso:
+   ```bash
+   dbt run
+   ```
+
+   Este comando cria ou atualiza as tabelas e views no banco de dados conforme as transformações definidas no projeto.
+
+---
+
+### 3. **`dbt docs generate`**
+   O comando `dbt docs generate` gera a documentação do projeto automaticamente a partir das descrições fornecidas nos arquivos `schema.yml`. Ele cria uma estrutura navegável em HTML, que contém informações detalhadas sobre as tabelas, colunas, e testes de qualidade de dados.
+
+   #### O que ele faz:
+   - Gera um conjunto de arquivos HTML que representam a documentação do projeto.
+   - Inclui diagramas de dependência mostrando como os modelos interagem entre si.
+   - Cria documentação com base nos metadados descritos no arquivo `schema.yml`, como descrições de tabelas e colunas, bem como os resultados dos testes de dados.
+
+   #### Quando usar:
+   - Após configurar ou alterar as descrições nos arquivos `schema.yml`.
+   - Quando for necessário gerar a documentação atualizada do pipeline de dados para compartilhamento com a equipe.
+
+   #### Exemplo de uso:
+   ```bash
+   dbt docs generate
+   ```
+
+   Esse comando cria um diretório `target/` contendo os arquivos HTML da documentação, prontos para visualização.
+
+---
+
+### 4. **`dbt docs serve`**
+   O comando `dbt docs serve` abre um servidor web local para você visualizar a documentação gerada pelo comando `dbt docs generate`. Ele facilita a navegação pelos modelos e diagramas de dependência diretamente no navegador.
+
+   #### O que ele faz:
+   - Inicia um servidor web local que permite a navegação pela documentação do projeto.
+   - Facilita a visualização interativa dos modelos, suas descrições e testes de qualidade.
+   - Inclui uma visualização gráfica dos relacionamentos entre os modelos, o que ajuda na compreensão das dependências.
+
+   #### Quando usar:
+   - Para compartilhar a documentação gerada com a equipe de dados.
+   - Quando for necessário revisar a estrutura de dados e os relacionamentos entre modelos.
+   - Quando precisar entender as transformações de dados em um formato visual.
+
+   #### Exemplo de uso:
+   ```bash
+   dbt docs serve
+   ```
+
+   O comando iniciará um servidor local (geralmente acessível em `http://localhost:8080`) onde você poderá navegar pela documentação gerada.
+
+---
+
+## Exemplos de Comandos Combinados no Fluxo de Trabalho
+
+1. **Conexão e Diagnóstico**:
+   - Antes de rodar qualquer transformação, você pode verificar se o ambiente está configurado corretamente com o comando:
+     ```bash
+     dbt debug
+     ```
+
+2. **Execução de Transformações**:
+   - Após garantir que a configuração está correta, execute os modelos com:
+     ```bash
+     dbt run
+     ```
+
+3. **Geração e Visualização de Documentação**:
+   - Para gerar e visualizar a documentação, você pode usar:
+     ```bash
+     dbt docs generate
+     dbt docs serve
+     ```
+---
+
+Esses comandos do `dbt` são essenciais para gerenciar pipelines de dados de maneira organizada, eficiente e facilmente auditável. O `dbt` ajuda a transformar dados brutos em insights acionáveis, automatizando grande parte do trabalho e facilitando a colaboração entre equipes. A capacidade de documentar e testar dados automaticamente também contribui para a robustez e confiabilidade das soluções desenvolvidas.
+
+---
+
+### Lineage Graph
+
+![image](https://github.com/user-attachments/assets/d39254a6-5861-4240-92a3-33b27bd58f3e)
+
+O **lineage graph** no `dbt` é uma representação visual das dependências entre os modelos de dados do projeto. Ele mostra como os dados fluem através das diferentes transformações, desde as tabelas brutas (sources) até os modelos finais no datamart.
+
+## Principais características:
+
+- **Fluxo de dados**: Exibe a sequência de transformações dos dados, conectando fontes, tabelas intermediárias e tabelas finais.
+- **Dependências entre modelos**: Mostra como um modelo depende de outros, facilitando a compreensão do impacto de mudanças nos dados.
+- **Visão hierárquica**: Ajuda a identificar relações de upstream (entrada) e downstream (saída), útil para entender o contexto geral do pipeline de dados.
+
+O lineage graph é útil para documentar o processo de ETL e garantir a clareza e transparência das transformações aplicadas aos dados.
 
 ---
 
